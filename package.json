@@ -1,57 +1,72 @@
 {
-  "name": "india-maps-temp",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@tailwindcss/postcss": "^4.2.2",
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^13.5.0",
-    "d3-geo": "^3.1.1",
-    "framer-motion": "^12.38.0",
-    "postcss": "^8.5.23",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-scripts": "5.0.1",
-    "tailwindcss": "^4.2.2",
-    "topojson-client": "^3.1.0",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "overrides": {
-    "nth-check": "^2.1.1",
-    "serialize-javascript": "^7.0.5",
-    "@tootallnate/once": "^2.0.1",
-    "underscore": "^1.13.8",
-    "uuid": "^11.1.1",
-    "resolve-url-loader": {
-      "postcss": "^8.5.23"
+  "name": "react-india-map",
+  "version": "1.0.0",
+  "description": "An interactive, animated India map React component with state info popovers, markers, and customizable props.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
     },
-    "svgo": "^3.3.2",
-    "webpack-dev-server": "^5.2.6"
+    "./styles.css": "./dist/styles.css"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "react",
+    "india",
+    "map",
+    "interactive",
+    "svg",
+    "component",
+    "d3",
+    "geo",
+    "states",
+    "infographic"
+  ],
+  "author": "Arvind Sharma <arsharma1996.as@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Arvind0810/interactive-india-map"
+  },
+  "homepage": "https://github.com/Arvind0810/interactive-india-map#readme",
+  "bugs": {
+    "url": "https://github.com/Arvind0810/interactive-india-map/issues"
+  },
+  "peerDependencies": {
+    "framer-motion": ">=6.0.0",
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "framer-motion": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-react": "^7.24.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^1.0.0",
+    "rollup": "^4.14.0",
+    "rollup-plugin-postcss": "^4.0.2"
   }
 }

@@ -1,0 +1,14 @@
+/* react-india-map — minimal base styles */
+.rim-root,
+.rim-root *,
+.rim-root *::before,
+.rim-root *::after {
+  box-sizing: border-box;
+}
+
+.rim-root {
+  font-family: "Inter", "Segoe UI", "Roboto", -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

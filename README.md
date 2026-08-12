@@ -1,70 +1,270 @@
-# Getting Started with Create React App
+# react-india-map
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An interactive, animated India map React component with state info popovers, animated markers, and customizable props.
 
-## Available Scripts
+![react-india-map](https://img.shields.io/npm/v/react-india-map?style=flat-square)
+![license](https://img.shields.io/npm/l/react-india-map?style=flat-square)
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- 🗺️ **Interactive SVG Map** — hover and click to explore Indian states
+- 💬 **Info Popovers** — animated tooltips showing what each state is famous for
+- 📍 **Custom Markers** — place markers at any `[lng, lat]` coordinates
+- 🎨 **Fully Customizable** — custom colors, markers, popovers, and callbacks
+- 🏢 **Business Ready** — show company branches, delivery zones, or any location data
+- 📦 **Zero Config** — all geo data and state info bundled in the package
+- ⚡ **Lightweight** — tree-shakeable ESM + CommonJS builds
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+npm install react-india-map framer-motion
+```
 
-### `npm test`
+> `framer-motion` is an optional peer dependency for marker animations.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Quick Start
 
-### `npm run build`
+### Default Map (Infographic Mode)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```jsx
+import { MapContainer } from "react-india-map";
+import "react-india-map/styles.css";
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+function App() {
+  return <MapContainer />;
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Map Only
 
-### `npm run eject`
+```jsx
+import { IndiaMap } from "react-india-map";
+import "react-india-map/styles.css";
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+function App() {
+  return (
+    <IndiaMap
+      onStateClick={(stateName, stateInfo) => console.log("Clicked:", stateName)}
+      onStateHover={(stateName, stateInfo) => console.log("Hovered:", stateName)}
+    />
+  );
+}
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Use Cases
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🏢 Company Branches / Office Locations
 
-## Learn More
+```jsx
+import { IndiaMap } from "react-india-map";
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const branches = [
+  {
+    id: "hq",
+    coordinates: [72.88, 19.08],
+    color: "#ef4444",
+    label: "Mumbai HQ",
+    description: "Head Office — 500+ employees",
+  },
+  {
+    id: "bangalore",
+    coordinates: [77.59, 12.97],
+    color: "#3b82f6",
+    label: "Bangalore Tech Hub",
+    description: "Engineering Center — 200+ developers",
+  },
+  {
+    id: "delhi",
+    coordinates: [77.21, 28.61],
+    color: "#22c55e",
+    label: "Delhi Sales Office",
+    description: "North India Sales — 50+ team",
+  },
+];
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+function BranchMap() {
+  return (
+    <IndiaMap
+      markers={branches}
+      highlightStates={["Maharashtra", "Karnataka", "Delhi"]}
+      highlightColor="#3b82f6"
+      onMarkerClick={(marker) => console.log("Branch clicked:", marker)}
+      onMarkerHover={(marker) => console.log("Hovering:", marker?.label)}
+    />
+  );
+}
+```
 
-### Code Splitting
+### 🚚 Delivery Zones
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```jsx
+<IndiaMap
+  highlightStates={["Maharashtra", "Gujarat", "Rajasthan", "Delhi", "Karnataka"]}
+  highlightColor="#22c55e"
+  defaultStateColor="#f1f5f9"
+  showMarkers={false}
+  showDelhiLabel={false}
+  renderPopover={(stateInfo, position) => (
+    <div
+      style={{
+        position: "fixed",
+        left: position.x + 15,
+        top: position.y - 10,
+        background: "white",
+        padding: "12px",
+        borderRadius: "8px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+        pointerEvents: "none",
+      }}
+    >
+      <strong>{stateInfo.name}</strong>
+      <p>Delivery available — 2-3 business days</p>
+    </div>
+  )}
+/>
+```
 
-### Analyzing the Bundle Size
+### 🗳️ Election / Data Visualization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```jsx
+const electionData = {
+  Maharashtra: { ...statesInfo.Maharashtra, color: "#ef4444", famousFor: "Party A — 42 seats" },
+  Gujarat: { ...statesInfo.Gujarat, color: "#3b82f6", famousFor: "Party B — 26 seats" },
+  // ... customize per state
+};
 
-### Making a Progressive Web App
+<IndiaMap statesInfo={electionData} />
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Components
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### `<IndiaMap />`
 
-### Deployment
+The core map component.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+#### Data & Dimensions
 
-### `npm run build` fails to minify
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `number` | `500` | SVG viewBox width |
+| `height` | `number` | `580` | SVG viewBox height |
+| `statesInfo` | `object` | Built-in data | Custom state info (colors, descriptions, markers) |
+| `excludeTerritories` | `string[]` | `["Andaman & Nicobar", "Lakshadweep"]` | Territories to hide |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### Custom Markers
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `markers` | `MarkerData[]` | — | Array of custom markers (overrides built-in capital markers) |
+| `onMarkerClick` | `(marker) => void` | — | Called when a custom marker is clicked |
+| `onMarkerHover` | `(marker \| null) => void` | — | Called when a custom marker is hovered |
+
+**MarkerData shape:**
+```ts
+{
+  id: string;                  // unique identifier
+  coordinates: [lng, lat];     // longitude, latitude
+  color?: string;              // marker color (default: "#3b82f6")
+  label?: string;              // display name
+  description?: string;        // tooltip text
+  data?: any;                  // any custom data you need
+}
+```
+
+#### Colors & Highlighting
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultStateColor` | `string` | `"#e2e8f0"` | Fill color for inactive states |
+| `defaultStateBorder` | `string` | `"#cbd5e1"` | Border color for inactive states |
+| `highlightStates` | `string[]` | — | Array of state names to highlight |
+| `highlightColor` | `string` | `"#3b82f6"` | Color used for highlighted states |
+
+#### Callbacks
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onStateClick` | `(name, info) => void` | — | Called when a state is clicked/unlocked |
+| `onStateHover` | `(name, info) => void` | — | Called when a state is hovered |
+
+#### Custom Rendering
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `renderPopover` | `(stateInfo, mousePos) => ReactNode` | — | Custom state tooltip renderer |
+| `renderMarkerPopover` | `(marker, mousePos) => ReactNode` | — | Custom marker tooltip renderer |
+
+#### Toggles
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `showPopover` | `boolean` | `true` | Show info popover on hover |
+| `showMarkers` | `boolean` | `true` | Show markers |
+| `showDelhiLabel` | `boolean` | `true` | Show the "NEW DELHI" label |
+| `enableClick` | `boolean` | `true` | Enable click-to-lock behavior |
+
+#### Styling
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | — | CSS class for the container |
+| `style` | `object` | — | Inline styles for the container |
+
+---
+
+### `<MapContainer />`
+
+Full-page layout with the map and an info panel.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `indiaMapProps` | `object` | — | All props passed through to `<IndiaMap />` |
+| `className` | `string` | — | CSS class for the container |
+| `style` | `object` | — | Inline styles for the container |
+
+---
+
+### `statesInfo`
+
+The built-in state data object — export it to extend or modify:
+
+```jsx
+import { IndiaMap, statesInfo } from "react-india-map";
+
+const customStates = {
+  ...statesInfo,
+  Maharashtra: {
+    ...statesInfo["Maharashtra"],
+    famousFor: "My custom description",
+    color: "#ff6b6b",
+  },
+};
+
+<IndiaMap statesInfo={customStates} />;
+```
+
+---
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Build the package
+npm run build
+
+# Run the demo app
+cd demo
+npm install
+npm run dev
+```
+
+## License
+
+MIT © [Arvind Sharma](https://github.com/Arvind0810)
